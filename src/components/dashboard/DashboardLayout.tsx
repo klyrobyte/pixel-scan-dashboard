@@ -63,7 +63,8 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
         }`}
       >
         {/* Mobile top bar */}
-        <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-border bg-background/80 px-4 py-3 backdrop-blur md:hidden">
+        <header className="sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-border bg-background/80 px-4 py-3 backdrop-blur md:hidden">
+          <div className="text-sm font-semibold tracking-wide">SUGITY CREATIVES</div>
           <button
             onClick={() => setMobileOpen(true)}
             className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-card text-foreground transition-smooth hover:bg-accent"
@@ -71,7 +72,6 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
           >
             <Menu className="h-5 w-5" />
           </button>
-          <div className="text-sm font-semibold tracking-wide">SUGITY CREATIVES</div>
         </header>
 
         <main className="px-4 py-6 sm:px-6 lg:px-10 lg:py-8">{children}</main>
