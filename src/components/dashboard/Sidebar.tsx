@@ -1,0 +1,142 @@
+import { Link, useRouterState } from "@tanstack/react-router";
+import { ScanLine, Boxes, History, Smartphone, Menu, Sparkles } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+export type NavItem = {
+  label: string;
+  description: string;
+  to: string;
+  icon: LucideIcon;
+};
+
+export const NAV_ITEMS: NavItem[] = [
+  {
+    label: "Stock Scan",
+    description: "Perform scanning tasks",
+    to: "/",
+    icon: ScanLine,
+  },
+  {
+    label: "View Stock",
+    description: "Realtime stock data",
+    to: "/view-stock",
+    icon: Boxes,
+  },
+  {
+    label: "Task History",
+    description: "Task history data",
+    to: "/task-history",
+    icon: History,
+  },
+  {
+    label: "Connected Devices",
+    description: "Device pairing status",
+    to: "/devices",
+    icon: Smartphone,
+  },
+];
+
+type Props = {
+  collapsed: boolean;
+  onToggle: () => void;
+  onNavigate?: () => void;
+};
+
+export function SidebarContent({ collapsed, onToggle, onNavigate }: Props) {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  return (
+    <aside
+      className={`flex h-full flex-col bg-sidebar text-sidebar-foreground transition-smooth ${
+        collapsed ? "w-[84px]" : "w-[280px]"
+      }`}
+    >
+      {/* Header */}
+      <div className="flex items-center gap-3 px-4 py-5">
+        <button
+          onClick={onToggle}
+          className="hidden md:inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-smooth hover:bg-accent hover:text-foreground"
+          aria-label="Toggle sidebar"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+        <div
+          className={`flex items-center gap-2 overflow-hidden transition-smooth ${
+            collapsed ? "w-0 opacity-0" : "w-auto opacity-100"
+          }`}
+        >
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/15 text-primary">
+            <Sparkles className="h-4 w-4" />
+          </div>
+          <div className="leading-tight">
+            <div className="text-[13px] font-semibold tracking-wide text-foreground">
+              SUGITY CREATIVES
+            </div>
+            <div className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
+              Sugity Integrated Online
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-3 my-2 h-px bg-border" />
+
+      {/* Nav */}
+      <nav className="flex-1 overflow-y-auto px-3 py-2 scrollbar-thin">
+        <ul className="space-y-1.5">
+          {NAV_ITEMS.map((item) => {
+            const Icon = item.icon;
+            const active = pathname === item.to;
+            return (
+              <li key={item.to}>
+                <Link
+                  to={item.to}
+                  onClick={onNavigate}
+                  className={`group flex items-center gap-3 rounded-full px-3 py-2.5 transition-smooth ${
+                    active
+                      ? "bg-pixel-blue-soft text-[oklch(0.2_0.04_250)]"
+                      : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                  }`}
+                >
+                  <span
+                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-smooth ${
+                      active
+                        ? "bg-white/30 text-[oklch(0.2_0.04_250)]"
+                        : "bg-card-elevated text-foreground/80 group-hover:bg-accent"
+                    }`}
+                  >
+                    <Icon className="h-4.5 w-4.5" strokeWidth={2} />
+                  </span>
+                  <span
+                    className={`min-w-0 flex-1 overflow-hidden transition-smooth ${
+                      collapsed ? "w-0 opacity-0" : "opacity-100"
+                    }`}
+                  >
+                    <span className="block truncate text-[13.5px] font-medium">
+                      {item.label}
+                    </span>
+                    <span
+                      className={`block truncate text-[11px] ${
+                        active ? "text-[oklch(0.32_0.04_250)]" : "text-muted-foreground"
+                      }`}
+                    >
+                      {item.description}
+                    </span>
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+
+      <div
+        className={`px-4 py-4 text-[11px] text-muted-foreground transition-smooth ${
+          collapsed ? "opacity-0" : "opacity-100"
+        }`}
+      >
+        v1.0 · Internal build
+      </div>
+    </aside>
+  );
+}
