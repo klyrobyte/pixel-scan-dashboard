@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ViewStockRouteImport } from './routes/view-stock'
 import { Route as TaskHistoryRouteImport } from './routes/task-history'
 import { Route as DevicesRouteImport } from './routes/devices'
+import { Route as AllQrRouteImport } from './routes/all-qr'
 import { Route as IndexRouteImport } from './routes/index'
 
 const ViewStockRoute = ViewStockRouteImport.update({
@@ -29,6 +30,11 @@ const DevicesRoute = DevicesRouteImport.update({
   path: '/devices',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AllQrRoute = AllQrRouteImport.update({
+  id: '/all-qr',
+  path: '/all-qr',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/all-qr': typeof AllQrRoute
   '/devices': typeof DevicesRoute
   '/task-history': typeof TaskHistoryRoute
   '/view-stock': typeof ViewStockRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/all-qr': typeof AllQrRoute
   '/devices': typeof DevicesRoute
   '/task-history': typeof TaskHistoryRoute
   '/view-stock': typeof ViewStockRoute
@@ -50,20 +58,28 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/all-qr': typeof AllQrRoute
   '/devices': typeof DevicesRoute
   '/task-history': typeof TaskHistoryRoute
   '/view-stock': typeof ViewStockRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/devices' | '/task-history' | '/view-stock'
+  fullPaths: '/' | '/all-qr' | '/devices' | '/task-history' | '/view-stock'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/devices' | '/task-history' | '/view-stock'
-  id: '__root__' | '/' | '/devices' | '/task-history' | '/view-stock'
+  to: '/' | '/all-qr' | '/devices' | '/task-history' | '/view-stock'
+  id:
+    | '__root__'
+    | '/'
+    | '/all-qr'
+    | '/devices'
+    | '/task-history'
+    | '/view-stock'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AllQrRoute: typeof AllQrRoute
   DevicesRoute: typeof DevicesRoute
   TaskHistoryRoute: typeof TaskHistoryRoute
   ViewStockRoute: typeof ViewStockRoute
@@ -92,6 +108,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/all-qr': {
+      id: '/all-qr'
+      path: '/all-qr'
+      fullPath: '/all-qr'
+      preLoaderRoute: typeof AllQrRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +127,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AllQrRoute: AllQrRoute,
   DevicesRoute: DevicesRoute,
   TaskHistoryRoute: TaskHistoryRoute,
   ViewStockRoute: ViewStockRoute,
@@ -111,3 +135,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
