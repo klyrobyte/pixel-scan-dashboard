@@ -9,8 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ViewStockRouteImport } from './routes/view-stock'
+import { Route as TaskHistoryRouteImport } from './routes/task-history'
+import { Route as DevicesRouteImport } from './routes/devices'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ViewStockRoute = ViewStockRouteImport.update({
+  id: '/view-stock',
+  path: '/view-stock',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TaskHistoryRoute = TaskHistoryRouteImport.update({
+  id: '/task-history',
+  path: '/task-history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevicesRoute = DevicesRouteImport.update({
+  id: '/devices',
+  path: '/devices',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +37,61 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/devices': typeof DevicesRoute
+  '/task-history': typeof TaskHistoryRoute
+  '/view-stock': typeof ViewStockRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/devices': typeof DevicesRoute
+  '/task-history': typeof TaskHistoryRoute
+  '/view-stock': typeof ViewStockRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/devices': typeof DevicesRoute
+  '/task-history': typeof TaskHistoryRoute
+  '/view-stock': typeof ViewStockRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/devices' | '/task-history' | '/view-stock'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/devices' | '/task-history' | '/view-stock'
+  id: '__root__' | '/' | '/devices' | '/task-history' | '/view-stock'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DevicesRoute: typeof DevicesRoute
+  TaskHistoryRoute: typeof TaskHistoryRoute
+  ViewStockRoute: typeof ViewStockRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/view-stock': {
+      id: '/view-stock'
+      path: '/view-stock'
+      fullPath: '/view-stock'
+      preLoaderRoute: typeof ViewStockRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/task-history': {
+      id: '/task-history'
+      path: '/task-history'
+      fullPath: '/task-history'
+      preLoaderRoute: typeof TaskHistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/devices': {
+      id: '/devices'
+      path: '/devices'
+      fullPath: '/devices'
+      preLoaderRoute: typeof DevicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +104,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DevicesRoute: DevicesRoute,
+  TaskHistoryRoute: TaskHistoryRoute,
+  ViewStockRoute: ViewStockRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
