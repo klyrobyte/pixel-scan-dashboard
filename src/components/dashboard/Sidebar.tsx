@@ -85,31 +85,28 @@ export function SidebarContent({ collapsed, onToggle, onNavigate }: Props) {
                 <Link
                   to={item.to}
                   onClick={onNavigate}
-                  className={`group flex items-center gap-3 rounded-full px-3 py-2.5 transition-smooth ${
+                  className={`group flex items-center gap-4 rounded-full px-4 py-3 transition-smooth ${
                     active
                       ? "bg-pixel-blue-soft text-[oklch(0.2_0.04_250)]"
-                      : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                      : "text-foreground/90 hover:bg-accent"
                   }`}
                 >
-                  <span
-                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-smooth ${
-                      active
-                        ? "bg-white/30 text-[oklch(0.2_0.04_250)]"
-                        : "bg-card-elevated text-foreground/80 group-hover:bg-accent"
+                  <Icon
+                    className={`h-5 w-5 shrink-0 transition-smooth ${
+                      active ? "text-[oklch(0.2_0.04_250)]" : "text-foreground/80"
                     }`}
-                  >
-                    <Icon className="h-4.5 w-4.5" strokeWidth={2} />
-                  </span>
+                    strokeWidth={1.75}
+                  />
                   <span
                     className={`min-w-0 flex-1 overflow-hidden transition-smooth ${
                       collapsed ? "w-0 opacity-0" : "opacity-100"
                     }`}
                   >
-                    <span className="block truncate text-[13.5px] font-medium">
+                    <span className="block truncate text-[14px] font-semibold">
                       {item.label}
                     </span>
                     <span
-                      className={`block truncate text-[11px] ${
+                      className={`block truncate text-[11.5px] ${
                         active ? "text-[oklch(0.32_0.04_250)]" : "text-muted-foreground"
                       }`}
                     >
