@@ -87,12 +87,14 @@ export function SidebarContent({ collapsed, onToggle, onNavigate }: Props) {
                   onClick={onNavigate}
                   className={`group flex items-center gap-4 rounded-full px-4 py-3 transition-smooth ${
                     active
-                      ? "bg-[#101113] text-foreground"
+                      ? "bg-pixel-blue-soft text-[oklch(0.2_0.04_250)]"
                       : "text-foreground/90 hover:bg-accent"
                   }`}
                 >
                   <Icon
-                    className="h-5 w-5 shrink-0 text-foreground transition-smooth"
+                    className={`h-5 w-5 shrink-0 transition-smooth ${
+                      active ? "text-[oklch(0.2_0.04_250)]" : "text-foreground/80"
+                    }`}
                     strokeWidth={1.75}
                   />
                   <span
@@ -103,7 +105,11 @@ export function SidebarContent({ collapsed, onToggle, onNavigate }: Props) {
                     <span className="block truncate text-[14px] font-semibold">
                       {item.label}
                     </span>
-                    <span className="block truncate text-[11.5px] text-muted-foreground">
+                    <span
+                      className={`block truncate text-[11.5px] ${
+                        active ? "text-[oklch(0.32_0.04_250)]" : "text-muted-foreground"
+                      }`}
+                    >
                       {item.description}
                     </span>
                   </span>
