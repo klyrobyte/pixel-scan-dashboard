@@ -52,7 +52,11 @@ export function SidebarContent({ collapsed, onToggle, onNavigate }: Props) {
       }`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between gap-3 px-5 py-5">
+      <div
+        className={`flex items-center gap-3 py-5 ${
+          collapsed ? "justify-center px-0" : "justify-between px-5"
+        }`}
+      >
         <div
           className={`min-w-0 leading-tight overflow-hidden transition-smooth ${
             collapsed ? "w-0 opacity-0" : "w-auto opacity-100"
@@ -67,7 +71,7 @@ export function SidebarContent({ collapsed, onToggle, onNavigate }: Props) {
         </div>
         <button
           onClick={onToggle}
-          className="hidden md:inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-smooth hover:bg-accent hover:text-foreground"
+          className="hidden md:inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-smooth hover:bg-[oklch(0.22_0_0)] hover:text-foreground"
           aria-label="Toggle sidebar"
         >
           <Menu className="h-5 w-5" />
@@ -75,11 +79,31 @@ export function SidebarContent({ collapsed, onToggle, onNavigate }: Props) {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 overflow-y-auto px-3 py-2 scrollbar-thin">
-        <ul className="space-y-1.5">
+      <nav className={`flex-1 overflow-y-auto py-2 scrollbar-thin ${collapsed ? "px-0" : "px-3"}`}>
+        <ul className={`space-y-1.5 ${collapsed ? "flex flex-col items-center" : ""}`}>
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
             const active = pathname === item.to;
+
+            if (collapsed) {
+              return (
+                <li key={item.to}>
+                  <Link
+                    to={item.to}
+                    onClick={onNavigate}
+                    title={item.label}
+                    className={`flex h-10 w-10 items-center justify-center rounded-full transition-smooth ${
+                      active
+                        ? "bg-[#a4c9e9] text-[oklch(0.2_0.04_250)]"
+                        : "text-foreground/80 hover:bg-[oklch(0.22_0_0)] hover:text-foreground"
+                    }`}
+                  >
+                    <Icon className="h-5 w-5" strokeWidth={1.75} />
+                  </Link>
+                </li>
+              );
+            }
+
             return (
               <li key={item.to}>
                 <Link
@@ -97,11 +121,7 @@ export function SidebarContent({ collapsed, onToggle, onNavigate }: Props) {
                     }`}
                     strokeWidth={1.75}
                   />
-                  <span
-                    className={`min-w-0 flex-1 overflow-hidden transition-smooth ${
-                      collapsed ? "w-0 opacity-0" : "opacity-100"
-                    }`}
-                  >
+                  <span className="min-w-0 flex-1 overflow-hidden">
                     <span className="block truncate text-[14px] font-semibold">
                       {item.label}
                     </span>
