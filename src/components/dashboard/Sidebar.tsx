@@ -47,7 +47,7 @@ export function SidebarContent({ collapsed, onToggle, onNavigate }: Props) {
 
   return (
     <aside
-      className={`flex h-full flex-col bg-sidebar text-sidebar-foreground transition-smooth ${
+      className={`flex h-full flex-col bg-[oklch(0.16_0_0)] text-sidebar-foreground transition-smooth ${
         collapsed ? "w-[84px]" : "w-[280px]"
       }`}
     >
@@ -87,8 +87,8 @@ export function SidebarContent({ collapsed, onToggle, onNavigate }: Props) {
                   onClick={onNavigate}
                   className={`group flex items-center gap-4 rounded-full px-4 py-3 transition-smooth ${
                     active
-                      ? "bg-pixel-blue-soft text-[oklch(0.2_0.04_250)]"
-                      : "text-foreground/90 hover:bg-accent"
+                      ? "bg-[#a4c9e9] text-[oklch(0.2_0.04_250)]"
+                      : "text-foreground/90 hover:bg-[oklch(0.22_0_0)]"
                   }`}
                 >
                   <Icon
@@ -107,7 +107,7 @@ export function SidebarContent({ collapsed, onToggle, onNavigate }: Props) {
                     </span>
                     <span
                       className={`block truncate text-[11.5px] ${
-                        active ? "text-[oklch(0.32_0.04_250)]" : "text-muted-foreground"
+                        active ? "text-[oklch(0.35_0.05_250)]" : "text-muted-foreground"
                       }`}
                     >
                       {item.description}
