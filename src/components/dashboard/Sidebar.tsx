@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ScanLine, Boxes, History, Smartphone, Menu } from "lucide-react";
+import { ScanLine, Boxes, History, Smartphone, Menu, QrCode } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export type NavItem = {
@@ -27,6 +27,12 @@ export const NAV_ITEMS: NavItem[] = [
     description: "Task history data",
     to: "/task-history",
     icon: History,
+  },
+  {
+    label: "Scan QR",
+    description: "Open QR scanner",
+    to: "/scan",
+    icon: QrCode,
   },
   {
     label: "Connected Devices",
